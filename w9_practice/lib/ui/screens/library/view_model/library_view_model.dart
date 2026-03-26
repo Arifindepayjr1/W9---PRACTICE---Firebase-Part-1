@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:w9_practice/data/repositories/artists/artist_repository.dart';
+import 'package:w9_practice/model/artists/artist.dart';
 import '../../../../data/repositories/songs/song_repository.dart';
 import '../../../states/player_state.dart';
 import '../../../../model/songs/song.dart';
@@ -7,12 +9,17 @@ import '../../../utils/async_value.dart';
 class LibraryViewModel extends ChangeNotifier {
   final SongRepository songRepository;
   final PlayerState playerState;
+  final ArtistRepository artistRepository;
+  List<Artist> _artists = [];
 
   AsyncValue<List<Song>> songsValue = AsyncValue.loading();
 
-  LibraryViewModel({required this.songRepository, required this.playerState}) {
+  LibraryViewModel({
+    required this.songRepository,
+    required this.playerState,
+    required this.artistRepository,
+  }) {
     playerState.addListener(notifyListeners);
-
     // init
     _init();
   }
@@ -23,7 +30,12 @@ class LibraryViewModel extends ChangeNotifier {
     super.dispose();
   }
 
+  Future<void> _loadArtists() async {
+    _artists = await artistRepository.fetchArtist();
+  }
+
   void _init() async {
+    await _loadArtists();
     fetchSong();
   }
 
@@ -40,8 +52,11 @@ class LibraryViewModel extends ChangeNotifier {
       // 3- Fetch is unsucessfull
       songsValue = AsyncValue.error(e);
     }
-     notifyListeners();
+    notifyListeners();
+  }
 
+  Artist? getArtistById(String id) {
+    return _artists.firstWhere((artist) => artist.id == id);
   }
 
   bool isSongPlaying(Song song) => playerState.currentSong == song;

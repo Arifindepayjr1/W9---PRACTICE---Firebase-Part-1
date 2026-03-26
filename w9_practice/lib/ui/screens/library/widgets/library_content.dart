@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:w9_practice/model/artists/artist.dart';
 import '../../../../model/songs/song.dart';
 import '../../../theme/theme.dart';
 import '../../../utils/async_value.dart';
@@ -30,6 +31,7 @@ class LibraryContent extends StatelessWidget {
         content = ListView.builder(
           itemCount: songs.length,
           itemBuilder: (context, index) => SongTile(
+            artist: mv.getArtistById(songs[index].artistId)!,
             song: songs[index],
             isPlaying: mv.isSongPlaying(songs[index]),
             onTap: () {

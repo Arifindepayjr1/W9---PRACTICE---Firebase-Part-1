@@ -1,5 +1,8 @@
 // song_repository_mock.dart
 
+import 'package:w9_practice/data/repositories/artists/artist_repository.dart';
+import 'package:w9_practice/model/artists/artist.dart';
+
 import '../../../model/songs/song.dart';
 import 'song_repository.dart';
 
@@ -22,4 +25,5 @@ class SongRepositoryMock implements SongRepository {
       );
     });
   }
+
 }

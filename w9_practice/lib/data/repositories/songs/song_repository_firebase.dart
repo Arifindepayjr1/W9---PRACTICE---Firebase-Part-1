@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:w9_practice/data/repositories/artists/artist_repository.dart';
+import 'package:w9_practice/data/repositories/artists/artist_repository_firebase.dart';
+import 'package:w9_practice/model/artists/artist.dart';
 
 import '../../../model/songs/song.dart';
 import '../../dtos/song_dto.dart';
@@ -24,10 +27,7 @@ class SongRepositoryFirebase extends SongRepository {
 
       return songs.entries.map((element) {
         final String id = element.key;
-        return SongDto.fromJson({
-          'id' : id,
-          ...element.value
-        });
+        return SongDto.fromJson({'id': id, ...element.value});
       }).toList();
     } else {
       // 2- Throw expcetion if any issue

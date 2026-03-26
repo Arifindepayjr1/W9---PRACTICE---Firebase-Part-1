@@ -20,6 +20,7 @@ List<InheritedProvider> get devProviders {
 
     Provider<ArtistRepository>(create: (_) => ArtistRepositoryFirebase()),
 
+
     // 2 - Inject the player state
     ChangeNotifierProvider<PlayerState>(create: (_) => PlayerState()),
 
